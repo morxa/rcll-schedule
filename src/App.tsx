@@ -15,24 +15,43 @@ function App() {
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [showConfig, setShowConfig] = useState(false);
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const scheduleData = await loadScheduleFromCSV();
-        setSchedule(scheduleData);
-        
-        // Set current date as default
-        const today = new Date().toISOString().split('T')[0];
-        const todayExists = scheduleData.some(day => day.date === today);
-        setSelectedDate(todayExists ? today : scheduleData[0]?.date || '');
-        
+  async function loadData() {
+    try {
+      setLoading(true);
+      setError(null);
+      console.log('App: Starting to load schedule data...');
+      const scheduleData = await loadScheduleFromCSV();
+      console.log('App: Schedule data loaded:', scheduleData.length, 'days');
+      
+      if (scheduleData.length === 0) {
+        setError('No schedule data found - check console for loading errors');
         setLoading(false);
-      } catch (err) {
-        setError('Failed to load schedule data');
-        setLoading(false);
+        return;
       }
+      
+      setSchedule(scheduleData);
+      
+      // Set current date as default
+      const today = new Date().toISOString().split('T')[0];
+      const todayExists = scheduleData.some(day => day.date === today);
+      setSelectedDate(todayExists ? today : scheduleData[0]?.date || '');
+      
+      setError(null); // Clear any previous errors
+      setLoading(false);
+      setLastUpdate(new Date());
+    } catch (err) {
+      console.error('App: Failed to load schedule:', err);
+      setError(`Failed to load schedule data: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      setLoading(false);
     }
+  }
 
+  const refreshSchedule = () => {
+    console.log('Manual refresh triggered');
+    loadData();
+  };
+
+  useEffect(() => {
     loadData();
   }, []);
 
@@ -56,6 +75,19 @@ function App() {
     }, 1000);
 
     return () => clearInterval(timeInterval);
+  }, []);
+
+  // Auto-refresh schedule every 5 minutes if using external URL
+  useEffect(() => {
+    const externalUrl = import.meta.env.VITE_SCHEDULE_CSV_URL;
+    if (!externalUrl) return;
+
+    const refreshInterval = setInterval(() => {
+      console.log('Auto-refreshing schedule due to cache expiration...');
+      loadData();
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return () => clearInterval(refreshInterval);
   }, []);
 
   if (loading) {
@@ -142,12 +174,14 @@ function App() {
           Current time: {currentTime.toLocaleTimeString()} • 
           Last update: {lastUpdate.toLocaleTimeString()} • 
           <span className="update-indicator">●</span> Auto-updating
+          {import.meta.env.VITE_SCHEDULE_CSV_URL && ' • Schedule refreshes every 5min'}
         </p>
       </footer>
 
       <ScheduleConfig 
         isVisible={showConfig} 
         onClose={() => setShowConfig(false)} 
+        onRefresh={refreshSchedule}
       />
     </div>
   );

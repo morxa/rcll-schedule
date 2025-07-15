@@ -4,9 +4,10 @@ import './ScheduleConfig.css';
 interface ScheduleConfigProps {
   isVisible: boolean;
   onClose: () => void;
+  onRefresh: () => void;
 }
 
-export const ScheduleConfig: React.FC<ScheduleConfigProps> = ({ isVisible, onClose }) => {
+export const ScheduleConfig: React.FC<ScheduleConfigProps> = ({ isVisible, onClose, onRefresh }) => {
   const [currentUrl, setCurrentUrl] = useState<string>('');
 
   useEffect(() => {
@@ -30,10 +31,23 @@ export const ScheduleConfig: React.FC<ScheduleConfigProps> = ({ isVisible, onClo
               {currentUrl}
             </div>
           </div>
+          
+          {import.meta.env.VITE_SCHEDULE_CSV_URL && (
+            <div className="config-section">
+              <button className="refresh-button" onClick={onRefresh}>
+                🔄 Refresh Schedule
+              </button>
+              <p className="refresh-note">Force reload from external source (bypasses cache)</p>
+            </div>
+          )}
+          
           <div className="config-info">
             <p><strong>📍 Current source:</strong> {import.meta.env.VITE_SCHEDULE_CSV_URL ? 'External URL' : 'Local file'}</p>
             <p><strong>🔄 Updates:</strong> {import.meta.env.VITE_SCHEDULE_CSV_URL ? 'Automatic when URL content changes' : 'Requires redeployment'}</p>
             <p><strong>⚙️ Configuration:</strong> Set via VITE_SCHEDULE_CSV_URL environment variable</p>
+            {import.meta.env.VITE_SCHEDULE_CSV_URL && (
+              <p><strong>🌐 CORS handling:</strong> Tries direct fetch first, falls back to CORS proxy if needed</p>
+            )}
           </div>
         </div>
       </div>

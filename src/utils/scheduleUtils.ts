@@ -4,19 +4,92 @@ export async function loadScheduleFromCSV(): Promise<DaySchedule[]> {
   try {
     // Try to load from external URL first, then fallback to local file
     const externalUrl = import.meta.env.VITE_SCHEDULE_CSV_URL;
-    let csvText: string;
+    let csvText: string = '';
     
     if (externalUrl) {
       try {
         console.log('Loading schedule from external URL:', externalUrl);
-        const response = await fetch(externalUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        
+        // First try direct fetch
+        try {
+          const cacheBuster = Date.now();
+          const urlWithCacheBuster = `${externalUrl}?cb=${cacheBuster}`;
+          const response = await fetch(urlWithCacheBuster);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          csvText = await response.text();
+          console.log('Successfully loaded schedule from external URL (direct)');
+        } catch (corsError) {
+          console.warn('Direct fetch failed (likely CORS), trying CORS proxy...', corsError);
+          
+          try {
+            // Try with CORS proxy - add cache busting parameter
+            const cacheBuster = Date.now();
+            const urlWithCacheBuster = `${externalUrl}?cb=${cacheBuster}`;
+            const corsProxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlWithCacheBuster)}`;
+            console.log('Attempting CORS proxy with cache-busted URL:', corsProxyUrl);
+            
+            const proxyResponse = await fetch(corsProxyUrl);
+            
+            if (!proxyResponse.ok) {
+              throw new Error(`CORS proxy failed! status: ${proxyResponse.status}`);
+            }
+            
+            const data = await proxyResponse.json();
+            
+            // Check if content is in base64 format (allorigins.win sometimes returns this)
+            let content = data.contents;
+            if (content && content.startsWith('data:text/csv;base64,')) {
+              // Decode base64 content
+              const base64Data = content.replace('data:text/csv;base64,', '');
+              content = atob(base64Data);
+              console.log('Decoded base64 CSV content from CORS proxy');
+            }
+            
+            // Validate that we actually got content
+            if (!content || content.trim() === '') {
+              throw new Error('CORS proxy returned empty content');
+            }
+            
+            // Additional validation: check if it looks like CSV
+            if (!content.includes(',') || content.split('\n').length < 2) {
+              throw new Error('CORS proxy returned invalid CSV format');
+            }
+            
+            csvText = content;
+            console.log('Successfully loaded schedule via CORS proxy, content length:', csvText.length);
+          } catch (proxyError) {
+            console.error('Primary CORS proxy failed:', proxyError);
+            
+            // Try alternative CORS proxy
+            try {
+              console.log('Trying alternative CORS proxy...');
+              const altCacheBuster = Date.now();
+              const altUrlWithCacheBuster = `${externalUrl}?cb=${altCacheBuster}`;
+              const altProxyUrl = `https://corsproxy.io/?${encodeURIComponent(altUrlWithCacheBuster)}`;
+              const altResponse = await fetch(altProxyUrl);
+              
+              if (!altResponse.ok) {
+                throw new Error(`Alternative CORS proxy failed! status: ${altResponse.status}`);
+              }
+              
+              csvText = await altResponse.text();
+              
+              if (!csvText || csvText.trim() === '' || !csvText.includes(',')) {
+                throw new Error('Alternative CORS proxy returned invalid content');
+              }
+              
+              console.log('Successfully loaded schedule via alternative CORS proxy');
+            } catch (altProxyError) {
+              console.error('All CORS proxy methods failed:', altProxyError);
+              throw new Error(`All external loading methods failed. Primary: ${proxyError instanceof Error ? proxyError.message : proxyError}, Alternative: ${altProxyError instanceof Error ? altProxyError.message : altProxyError}`);
+            }
+          }
         }
-        csvText = await response.text();
-        console.log('Successfully loaded schedule from external URL');
+        
       } catch (externalError) {
-        console.warn('Failed to load from external URL, falling back to local file:', externalError);
+        console.warn('Failed to load from external URL and CORS proxy, falling back to local file:', externalError);
         // Fallback to local file
         const localResponse = await fetch('/schedule.csv');
         csvText = await localResponse.text();
@@ -28,7 +101,17 @@ export async function loadScheduleFromCSV(): Promise<DaySchedule[]> {
       const response = await fetch('/schedule.csv');
       csvText = await response.text();
     }
-    
+
+    // Validate CSV content before parsing
+    if (!csvText || csvText.trim() === '') {
+      throw new Error('CSV content is empty');
+    }
+
+    if (!csvText.includes(',')) {
+      throw new Error('CSV content does not appear to be valid CSV format');
+    }
+
+    console.log('CSV content loaded successfully, length:', csvText.length, 'lines:', csvText.split('\n').length);
     return parseCSV(csvText);
   } catch (error) {
     console.error('Error loading schedule:', error);

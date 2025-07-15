@@ -60,6 +60,13 @@ VITE_SCHEDULE_CSV_URL=https://your-csv-url.com/schedule.csv
 - Update schedule without redeploying the website
 - Can use GitHub Gist, Google Sheets, or any public CSV URL
 - Automatic fallback to local file if external URL fails
+- **CORS handling**: Automatically tries direct fetch first, then uses CORS proxy if needed
+
+**CORS Support:**
+The app handles CORS (Cross-Origin) issues automatically:
+1. First attempts direct fetch from your URL
+2. If CORS blocks the request, uses `allorigins.win` proxy service
+3. Falls back to local file if both methods fail
 
 ### 2. Local CSV File
 Place your schedule in `public/schedule.csv` (fallback method)
