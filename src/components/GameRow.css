@@ -1,0 +1,133 @@
+.game-row {
+  transition: all 0.3s ease;
+}
+
+.game-row:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.current-game {
+  background-color: #fff3cd;
+  border: 2px solid #ffc107;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3); }
+  50% { box-shadow: 0 4px 16px rgba(255, 193, 7, 0.5); }
+  100% { box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3); }
+}
+
+.time-cell {
+  font-weight: 600;
+  color: #495057;
+  text-align: center;
+  min-width: 80px;
+}
+
+.team-cell {
+  padding: 8px 16px;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.cyan-team {
+  background-color: #e0f7ff;
+  color: #0891b2;
+  border: 1px solid #67e8f9;
+}
+
+.magenta-team {
+  background-color: #fdf2f8;
+  color: #be185d;
+  border: 1px solid #f9a8d4;
+}
+
+.break-cell {
+  background-color: #f5f5f5;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+
+/* Past Game Styling */
+.past-game {
+  opacity: 0.5;
+  filter: grayscale(50%);
+}
+
+.past-game .team-cell {
+  background-color: #f8f9fa !important;
+  color: #6c757d !important;
+  border-color: #dee2e6 !important;
+}
+
+.past-game .time-cell {
+  color: #adb5bd;
+}
+
+.past-game .vs-cell,
+.past-game .game-type-cell {
+  color: #adb5bd;
+}
+
+.past-game .special-event-cell {
+  background: #dee2e6 !important;
+  color: #6c757d !important;
+}
+
+.vs-cell {
+  text-align: center;
+  font-weight: bold;
+  color: #6c757d;
+  font-size: 12px;
+  min-width: 30px;
+}
+
+.game-type-cell {
+  text-align: center;
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.break-row {
+  opacity: 0.7;
+}
+
+.break-row .team-cell {
+  font-style: italic;
+}
+
+/* Special Event Styles */
+.special-event-row {
+  background-color: #f8f9fa;
+}
+
+.special-event-cell {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px 16px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  margin: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.special-event-row.current-game .special-event-cell {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  animation: pulse-special 2s infinite;
+}
+
+@keyframes pulse-special {
+  0% { box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3); }
+  50% { box-shadow: 0 4px 16px rgba(255, 107, 107, 0.5); }
+  100% { box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3); }
+}

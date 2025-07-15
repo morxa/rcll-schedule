@@ -1,0 +1,205 @@
+/* App Styles */
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Header */
+.app-header {
+  background: white;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.app-header h1 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* Current Game Banner */
+.current-game-banner {
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
+  margin: 1rem -1rem 0 -1rem;
+  padding: 1rem;
+  color: white;
+  font-weight: 600;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px rgba(255, 107, 107, 0.5); }
+  to { box-shadow: 0 0 20px rgba(255, 107, 107, 0.8); }
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.banner-label {
+  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cyan-team-banner {
+  background: #0891b2 !important;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.magenta-team-banner {
+  background: #be185d !important;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.vs-banner {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.time-banner {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.special-event-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation */
+.date-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 1rem 1rem 1rem;
+  flex-wrap: wrap;
+}
+
+.date-button {
+  padding: 0.75rem 1.25rem;
+  border: 2px solid #e9ecef;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #495057;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.date-button:hover {
+  border-color: #6c757d;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date-button.active {
+  background: #007bff;
+  border-color: #007bff;
+  color: white;
+  font-weight: 600;
+}
+
+.date-button.today {
+  border-color: #28a745;
+  background: #f8fff9;
+}
+
+.date-button.today.active {
+  background: #28a745;
+  border-color: #28a745;
+}
+
+/* Main Content */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Loading and Error States */
+.loading, .error, .no-schedule {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 1.25rem;
+  color: #6c757d;
+}
+
+.error {
+  color: #dc3545;
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+.update-indicator {
+  color: #28a745;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .banner-content {
+    font-size: 0.9rem;
+  }
+  
+  .date-button {
+    padding: 0.5rem 1rem;
+    min-width: 80px;
+    font-size: 0.9rem;
+  }
+  
+  .main-content {
+    padding: 0 0.5rem;
+  }
+}
