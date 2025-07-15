@@ -1,16 +1,16 @@
 date,time,cyan_team,magenta_team,game_type
-2025-07-15,09:00,Setup,Setup,Setup
-2025-07-15,15:00,Technical Check,Technical Check,Check
-2025-07-16,08:30,Opening Ceremony,Opening Ceremony,Ceremony
+2025-07-15,09:00,,,Setup
+2025-07-15,15:00,,,Technical Check
+2025-07-16,08:30,,,Opening Ceremony
 2025-07-16,09:00,Team Alpha,Team Beta,Match
 2025-07-16,09:30,Team Gamma,Team Delta,Match
 2025-07-16,10:00,Team Epsilon,Team Zeta,Match
-2025-07-16,10:30,Coffee Break,Coffee Break,Break
+2025-07-16,10:30,,,Coffee Break
 2025-07-16,11:00,Team Alpha,Team Gamma,Match
 2025-07-16,11:30,Team Beta,Team Delta,Match
 2025-07-16,12:00,Team Epsilon,Team Alpha,Match
-2025-07-16,12:30,Break,Break,Break
-2025-07-16,13:00,Break,Break,Break
+2025-07-16,12:30,,,Break
+2025-07-16,13:00,,,Break
 2025-07-16,13:30,Team Zeta,Team Beta,Match
 2025-07-16,14:00,Team Gamma,Team Epsilon,Match
 2025-07-16,14:30,Team Delta,Team Alpha,Match
@@ -25,8 +25,8 @@ date,time,cyan_team,magenta_team,game_type
 2025-07-17,10:30,Team Beta,Team Delta,Match
 2025-07-17,11:00,Team Gamma,Team Zeta,Match
 2025-07-17,11:30,Team Epsilon,Team Beta,Match
-2025-07-17,12:00,Break,Break,Break
-2025-07-17,12:30,Break,Break,Break
+2025-07-17,12:00,,,Break
+2025-07-17,12:30,,,Break
 2025-07-17,13:00,Team Alpha,Team Gamma,Match
 2025-07-17,13:30,Team Delta,Team Zeta,Match
 2025-07-17,14:00,Team Beta,Team Epsilon,Match
@@ -41,8 +41,8 @@ date,time,cyan_team,magenta_team,game_type
 2025-07-18,10:30,Team Gamma,Team Zeta,Match
 2025-07-18,11:00,Team Alpha,Team Epsilon,Match
 2025-07-18,11:30,Team Delta,Team Beta,Match
-2025-07-18,12:00,Break,Break,Break
-2025-07-18,12:30,Break,Break,Break
+2025-07-18,12:00,,,Break
+2025-07-18,12:30,,,Break
 2025-07-18,13:00,Team Zeta,Team Gamma,Match
 2025-07-18,13:30,Team Alpha,Team Beta,Match
 2025-07-18,14:00,Team Epsilon,Team Delta,Match
@@ -57,8 +57,8 @@ date,time,cyan_team,magenta_team,game_type
 2025-07-19,10:30,Team Epsilon,Team Gamma,Match
 2025-07-19,11:00,Team Alpha,Team Zeta,Match
 2025-07-19,11:30,Team Delta,Team Beta,Match
-2025-07-19,12:00,Break,Break,Break
-2025-07-19,12:30,Break,Break,Break
+2025-07-19,12:00,,,Break
+2025-07-19,12:30,,,Break
 2025-07-19,13:00,Team Gamma,Team Delta,Match
 2025-07-19,13:30,Team Epsilon,Team Alpha,Match
 2025-07-19,14:00,Team Beta,Team Zeta,Match
@@ -69,8 +69,8 @@ date,time,cyan_team,magenta_team,game_type
 2025-07-19,16:30,Team Delta,Team Epsilon,Match
 2025-07-20,09:00,Team Alpha,Team Beta,Semi-Final
 2025-07-20,10:00,Team Gamma,Team Delta,Semi-Final
-2025-07-20,11:00,Break,Break,Break
+2025-07-20,11:00,,,Break
 2025-07-20,12:00,TBD,TBD,Final
 2025-07-20,13:00,TBD,TBD,3rd Place
-2025-07-20,14:00,Awards Ceremony,Awards Ceremony,Ceremony
-2025-07-20,15:00,Closing Ceremony,Closing Ceremony,Ceremony
+2025-07-20,14:00,,,Awards Ceremony
+2025-07-20,15:00,,,Closing Ceremony

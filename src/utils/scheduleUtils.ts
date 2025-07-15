@@ -157,8 +157,8 @@ export function parseCSV(csvText: string): DaySchedule[] {
     const magentaTeam = values[3];
     const gameType = values[4];
     
-    // Check if this is a special event (same text in both team columns or special keywords)
-    const isSpecialEvent = cyanTeam === magentaTeam || 
+    // Check if this is a special event (blank team columns or same text in both columns)
+    const isSpecialEvent = (!cyanTeam && !magentaTeam) || (cyanTeam === magentaTeam) || 
                           ['Opening Ceremony', 'Closing Ceremony', 'Awards', 'Lunch', 'Coffee Break'].includes(cyanTeam);
     
     return {
@@ -168,7 +168,7 @@ export function parseCSV(csvText: string): DaySchedule[] {
       magentaTeam,
       gameType,
       isSpecialEvent,
-      eventTitle: isSpecialEvent ? cyanTeam : undefined
+      eventTitle: isSpecialEvent ? (gameType || cyanTeam) : undefined
     };
   });
 
