@@ -2,8 +2,33 @@ import type { ScheduleEntry, DaySchedule } from '../types/schedule';
 
 export async function loadScheduleFromCSV(): Promise<DaySchedule[]> {
   try {
-    const response = await fetch('/schedule.csv');
-    const csvText = await response.text();
+    // Try to load from external URL first, then fallback to local file
+    const externalUrl = import.meta.env.VITE_SCHEDULE_CSV_URL;
+    let csvText: string;
+    
+    if (externalUrl) {
+      try {
+        console.log('Loading schedule from external URL:', externalUrl);
+        const response = await fetch(externalUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        csvText = await response.text();
+        console.log('Successfully loaded schedule from external URL');
+      } catch (externalError) {
+        console.warn('Failed to load from external URL, falling back to local file:', externalError);
+        // Fallback to local file
+        const localResponse = await fetch('/schedule.csv');
+        csvText = await localResponse.text();
+        console.log('Successfully loaded schedule from local file');
+      }
+    } else {
+      // No external URL configured, use local file
+      console.log('No external URL configured, loading from local file');
+      const response = await fetch('/schedule.csv');
+      csvText = await response.text();
+    }
+    
     return parseCSV(csvText);
   } catch (error) {
     console.error('Error loading schedule:', error);

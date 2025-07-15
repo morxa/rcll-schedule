@@ -43,30 +43,7 @@ The built files will be in the `dist/` directory.
 
 ## Schedule Management
 
-The schedule can be managed in two ways:
-
-### 1. External CSV URL (Recommended for production)
-Set the `VITE_SCHEDULE_CSV_URL` environment variable to load the schedule from an external source:
-
-```bash
-# Copy the example environment file
-cp .env.example .env
-
-# Edit .env and set your CSV URL
-VITE_SCHEDULE_CSV_URL=https://your-csv-url.com/schedule.csv
-```
-
-**Benefits:**
-- Update schedule without redeploying the website
-- Can use GitHub Gist, Google Sheets, or any public CSV URL
-- Automatic fallback to local file if external URL fails
-
-### 2. Local CSV File
-Place your schedule in `public/schedule.csv` (fallback method)
-
-### CSV Format
-
-The schedule CSV file should follow this format:
+The schedule is managed through a CSV file located at `public/schedule.csv`. The format is:
 
 ```csv
 date,time,cyan_team,magenta_team,game_type
@@ -74,20 +51,13 @@ date,time,cyan_team,magenta_team,game_type
 2025-07-16,09:30,Team Gamma,Team Delta,Match
 ```
 
-### CSV Format Details
+### CSV Format
 
 - **date**: Date in YYYY-MM-DD format
 - **time**: Time in HH:MM format (24-hour)
 - **cyan_team**: Name of the CYAN team
 - **magenta_team**: Name of the MAGENTA team
 - **game_type**: Type of game (Match, Semi-Final, Final, Break, etc.)
-
-### Special Events
-For events like ceremonies or breaks, use the same text in both team columns:
-```csv
-2025-07-16,08:30,Opening Ceremony,Opening Ceremony,Ceremony
-2025-07-16,10:30,Coffee Break,Coffee Break,Break
-```
 
 ## Features in Detail
 

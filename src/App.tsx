@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { DaySchedule, ScheduleEntry } from './types/schedule';
 import { DayScheduleComponent } from './components/DaySchedule';
+import { ScheduleConfig } from './components/ScheduleConfig';
 import { loadScheduleFromCSV, getCurrentGame } from './utils/scheduleUtils';
 import './App.css';
 
@@ -12,6 +13,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [showConfig, setShowConfig] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -78,7 +80,16 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>RCLL Competition Schedule</h1>
+        <div className="header-content">
+          <h1>RCLL Competition Schedule</h1>
+          <button 
+            className="config-button" 
+            onClick={() => setShowConfig(true)}
+            title="Schedule Configuration"
+          >
+            ⚙️
+          </button>
+        </div>
         
         {currentGame && currentGame.date === today && (
           <div className="current-game-banner">
@@ -133,6 +144,11 @@ function App() {
           <span className="update-indicator">●</span> Auto-updating
         </p>
       </footer>
+
+      <ScheduleConfig 
+        isVisible={showConfig} 
+        onClose={() => setShowConfig(false)} 
+      />
     </div>
   );
 }
