@@ -113,7 +113,14 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-content">
-          <h1>RCLL Competition Schedule</h1>
+          <div className="title-with-logo">
+            <img 
+              src="https://ll.robocup.org/wp-content/uploads/2023/04/RCfed_high_M_Transp.png" 
+              alt="RoboCup Logo" 
+              className="logo"
+            />
+            <h1>RCLL Competition Schedule</h1>
+          </div>
           <button 
             className="config-button" 
             onClick={() => setShowConfig(true)}
