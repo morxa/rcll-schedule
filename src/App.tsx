@@ -78,8 +78,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🏆 Competition Schedule</h1>
-        <p className="subtitle">RoboCup Logistics League - July 16-20, 2025</p>
+        <h1>RCLL Competition Schedule</h1>
         
         {currentGame && currentGame.date === today && (
           <div className="current-game-banner">
