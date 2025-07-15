@@ -14,13 +14,26 @@ export async function loadScheduleFromCSV(): Promise<DaySchedule[]> {
         try {
           const cacheBuster = Date.now();
           const urlWithCacheBuster = `${externalUrl}?cb=${cacheBuster}`;
-          const response = await fetch(urlWithCacheBuster);
+          
+          // Add timeout to prevent hanging requests
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+          
+          const response = await fetch(urlWithCacheBuster, { 
+            signal: controller.signal 
+          });
+          clearTimeout(timeoutId);
+          
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           csvText = await response.text();
           console.log('Successfully loaded schedule from external URL (direct)');
         } catch (corsError) {
+          // Clean up timeout if fetch was aborted
+          if (corsError instanceof Error && corsError.name === 'AbortError') {
+            console.log('Direct fetch aborted due to timeout');
+          }
           console.warn('Direct fetch failed (likely CORS), trying CORS proxy...', corsError);
           
           try {
@@ -30,7 +43,14 @@ export async function loadScheduleFromCSV(): Promise<DaySchedule[]> {
             const corsProxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlWithCacheBuster)}`;
             console.log('Attempting CORS proxy with cache-busted URL:', corsProxyUrl);
             
-            const proxyResponse = await fetch(corsProxyUrl);
+            // Add timeout for proxy request
+            const proxyController = new AbortController();
+            const proxyTimeoutId = setTimeout(() => proxyController.abort(), 15000); // 15 second timeout
+            
+            const proxyResponse = await fetch(corsProxyUrl, {
+              signal: proxyController.signal
+            });
+            clearTimeout(proxyTimeoutId);
             
             if (!proxyResponse.ok) {
               throw new Error(`CORS proxy failed! status: ${proxyResponse.status}`);
@@ -68,7 +88,15 @@ export async function loadScheduleFromCSV(): Promise<DaySchedule[]> {
               const altCacheBuster = Date.now();
               const altUrlWithCacheBuster = `${externalUrl}?cb=${altCacheBuster}`;
               const altProxyUrl = `https://corsproxy.io/?${encodeURIComponent(altUrlWithCacheBuster)}`;
-              const altResponse = await fetch(altProxyUrl);
+              
+              // Add timeout for alternative proxy
+              const altController = new AbortController();
+              const altTimeoutId = setTimeout(() => altController.abort(), 15000); // 15 second timeout
+              
+              const altResponse = await fetch(altProxyUrl, {
+                signal: altController.signal
+              });
+              clearTimeout(altTimeoutId);
               
               if (!altResponse.ok) {
                 throw new Error(`Alternative CORS proxy failed! status: ${altResponse.status}`);

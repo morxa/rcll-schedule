@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { DaySchedule, ScheduleEntry } from './types/schedule';
 import { DayScheduleComponent } from './components/DaySchedule';
 import { ScheduleConfig } from './components/ScheduleConfig';
@@ -15,7 +15,7 @@ function App() {
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [showConfig, setShowConfig] = useState(false);
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -44,23 +44,23 @@ function App() {
       setError(`Failed to load schedule data: ${err instanceof Error ? err.message : 'Unknown error'}`);
       setLoading(false);
     }
-  }
-
-  const refreshSchedule = () => {
-    console.log('Manual refresh triggered');
-    loadData();
-  };
-
-  useEffect(() => {
-    loadData();
   }, []);
 
+  const refreshSchedule = useCallback(() => {
+    console.log('Manual refresh triggered');
+    loadData();
+  }, [loadData]);
+
   useEffect(() => {
-    function updateCurrentGame() {
+    loadData();
+  }, [loadData]);
+
+  useEffect(() => {
+    const updateCurrentGame = () => {
       const current = getCurrentGame(schedule);
       setCurrentGame(current);
       setLastUpdate(new Date()); // Track when we last updated the game
-    }
+    };
 
     updateCurrentGame();
     const interval = setInterval(updateCurrentGame, 30000); // Update current game every 30 seconds
@@ -88,7 +88,7 @@ function App() {
     }, 5 * 60 * 1000); // 5 minutes
 
     return () => clearInterval(refreshInterval);
-  }, []);
+  }, [loadData]);
 
   if (loading) {
     return (
