@@ -245,7 +245,7 @@ function addMinutesToTime(timeString: string, minutes: number): string {
 
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { 
+  return date.toLocaleDateString(undefined, { 
     weekday: 'long', 
     month: 'long', 
     day: 'numeric' 
@@ -254,8 +254,12 @@ export function formatDate(dateString: string): string {
 
 export function formatTime(timeString: string): string {
   const [hours, minutes] = timeString.split(':');
-  const hour = parseInt(hours);
-  const ampm = hour >= 12 ? 'PM' : 'AM';
-  const displayHour = hour % 12 || 12;
-  return `${displayHour}:${minutes} ${ampm}`;
+  const date = new Date();
+  date.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+  
+  return date.toLocaleTimeString(undefined, {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: undefined // Let the browser decide based on locale
+  });
 }

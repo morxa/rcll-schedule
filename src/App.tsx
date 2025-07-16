@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import type { DaySchedule, ScheduleEntry } from './types/schedule';
 import { DayScheduleComponent } from './components/DaySchedule';
 import { ScheduleConfig } from './components/ScheduleConfig';
-import { loadScheduleFromCSV, getCurrentGame } from './utils/scheduleUtils';
+import { loadScheduleFromCSV, getCurrentGame, formatTime } from './utils/scheduleUtils';
 import './App.css';
 
 function App() {
@@ -143,7 +143,7 @@ function App() {
                   <span className="magenta-team-banner">{currentGame.magentaTeam}</span>
                 </>
               )}
-              <span className="time-banner">({currentGame.time})</span>
+              <span className="time-banner">({formatTime(currentGame.time)})</span>
             </div>
           </div>
         )}
