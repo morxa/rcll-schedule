@@ -189,7 +189,10 @@ export function parseCSV(csvText: string): DaySchedule[] {
 
 export function getCurrentGame(schedule: DaySchedule[]): ScheduleEntry | null {
   const now = new Date();
-  const currentDate = now.toISOString().split('T')[0];
+  // Format current date to match CSV format (YYYY-MM-DD)
+  const currentDate = now.getFullYear() + '-' + 
+                     String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                     String(now.getDate()).padStart(2, '0');
   const currentTime = now.toTimeString().slice(0, 5);
 
   const todaySchedule = schedule.find(day => day.date === currentDate);
@@ -211,7 +214,10 @@ export function getCurrentGame(schedule: DaySchedule[]): ScheduleEntry | null {
 
 export function getGameStatus(game: ScheduleEntry, currentGame: ScheduleEntry | null): 'past' | 'current' | 'future' {
   const now = new Date();
-  const currentDate = now.toISOString().split('T')[0];
+  // Format current date to match CSV format (YYYY-MM-DD)
+  const currentDate = now.getFullYear() + '-' + 
+                     String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                     String(now.getDate()).padStart(2, '0');
   
   // If it's not today, check if it's past or future
   if (game.date < currentDate) return 'past';
@@ -244,7 +250,9 @@ function addMinutesToTime(timeString: string, minutes: number): string {
 }
 
 export function formatDate(dateString: string): string {
-  const date = new Date(dateString);
+  // Parse as local date to avoid timezone issues
+  const [year, month, day] = dateString.split('-');
+  const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   return date.toLocaleDateString(undefined, { 
     weekday: 'long', 
     month: 'long', 

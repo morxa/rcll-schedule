@@ -107,7 +107,10 @@ function App() {
   }
 
   const selectedDaySchedule = schedule.find(day => day.date === selectedDate);
-  const today = new Date().toISOString().split('T')[0];
+  // Format current date to match CSV format (YYYY-MM-DD)
+  const today = new Date().getFullYear() + '-' + 
+               String(new Date().getMonth() + 1).padStart(2, '0') + '-' + 
+               String(new Date().getDate()).padStart(2, '0');
 
   return (
     <div className="app">
@@ -150,19 +153,25 @@ function App() {
       </header>
 
       <nav className="date-nav">
-        {schedule.map(day => (
-          <button
-            key={day.date}
-            className={`date-button ${selectedDate === day.date ? 'active' : ''} ${day.date === today ? 'today' : ''}`}
-            onClick={() => setSelectedDate(day.date)}
-          >
-            {new Date(day.date).toLocaleDateString('en-US', { 
-              weekday: 'short', 
-              month: 'short', 
-              day: 'numeric' 
-            })}
-          </button>
-        ))}
+        {schedule.map(day => {
+          // Parse date as local to avoid timezone issues
+          const [year, month, dayNum] = day.date.split('-');
+          const localDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(dayNum));
+          
+          return (
+            <button
+              key={day.date}
+              className={`date-button ${selectedDate === day.date ? 'active' : ''} ${day.date === today ? 'today' : ''}`}
+              onClick={() => setSelectedDate(day.date)}
+            >
+              {localDate.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric' 
+              })}
+            </button>
+          );
+        })}
       </nav>
 
       <main className="main-content">
