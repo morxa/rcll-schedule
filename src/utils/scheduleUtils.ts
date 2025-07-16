@@ -156,26 +156,29 @@ export function parseCSV(csvText: string): DaySchedule[] {
   const lines = csvText.trim().split('\n');
   lines[0].split(','); // Skip headers
   
-  const entries: ScheduleEntry[] = lines.slice(1).map(line => {
-    const values = line.split(',');
-    const cyanTeam = values[2];
-    const magentaTeam = values[3];
-    const gameType = values[4];
-    
-    // Check if this is a special event (blank team columns or same text in both columns)
-    const isSpecialEvent = (!cyanTeam && !magentaTeam) || (cyanTeam === magentaTeam) || 
-                          ['Opening Ceremony', 'Closing Ceremony', 'Awards', 'Lunch', 'Coffee Break'].includes(cyanTeam);
-    
-    return {
-      date: values[0],
-      time: values[1],
-      cyanTeam,
-      magentaTeam,
-      gameType,
-      isSpecialEvent,
-      eventTitle: isSpecialEvent ? (gameType || cyanTeam) : undefined
-    };
-  });
+  const entries: ScheduleEntry[] = lines.slice(1)
+    .filter(line => line.trim() !== '') // Filter out empty lines
+    .filter(line => line.split(',').length >= 3) // Ensure minimum required columns (date, time, at least one more)
+    .map(line => {
+      const values = line.split(',');
+      const cyanTeam = values[2];
+      const magentaTeam = values[3];
+      const gameType = values[4];
+      
+      // Check if this is a special event (blank team columns or same text in both columns)
+      const isSpecialEvent = (!cyanTeam && !magentaTeam) || (cyanTeam === magentaTeam) || 
+                            ['Opening Ceremony', 'Closing Ceremony', 'Awards', 'Lunch', 'Coffee Break'].includes(cyanTeam);
+      
+      return {
+        date: values[0],
+        time: values[1],
+        cyanTeam,
+        magentaTeam,
+        gameType,
+        isSpecialEvent,
+        eventTitle: isSpecialEvent ? (gameType || cyanTeam) : undefined
+      };
+    });
 
   // Group by date
   const groupedByDate = entries.reduce((acc, entry) => {
