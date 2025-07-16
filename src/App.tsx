@@ -98,7 +98,6 @@ function App() {
     const updateCurrentGame = () => {
       const current = getCurrentGame(schedule);
       setCurrentGame(current);
-      setLastUpdate(new Date()); // Track when we last updated the game
     };
 
     updateCurrentGame();
