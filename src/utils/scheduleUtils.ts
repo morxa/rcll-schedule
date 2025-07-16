@@ -1,8 +1,8 @@
 import type { ScheduleEntry, DaySchedule } from '../types/schedule';
 
-export async function loadScheduleFromCSV(): Promise<DaySchedule[]> {
+export async function loadScheduleFromCSV(allowFallback = true): Promise<DaySchedule[]> {
   try {
-    // Try to load from external URL first, then fallback to local file
+    // Try to load from external URL first, then fallback to local file (only if allowed)
     const externalUrl = import.meta.env.VITE_SCHEDULE_CSV_URL;
     let csvText: string = '';
     
@@ -117,11 +117,16 @@ export async function loadScheduleFromCSV(): Promise<DaySchedule[]> {
         }
         
       } catch (externalError) {
-        console.warn('Failed to load from external URL and CORS proxy, falling back to local file:', externalError);
-        // Fallback to local file
-        const localResponse = await fetch('/schedule.csv');
-        csvText = await localResponse.text();
-        console.log('Successfully loaded schedule from local file');
+        if (allowFallback) {
+          console.warn('Failed to load from external URL and CORS proxy, falling back to local file:', externalError);
+          // Fallback to local file
+          const localResponse = await fetch('/schedule.csv');
+          csvText = await localResponse.text();
+          console.log('Successfully loaded schedule from local file');
+        } else {
+          console.error('Failed to load from external URL and fallback not allowed:', externalError);
+          throw externalError;
+        }
       }
     } else {
       // No external URL configured, use local file

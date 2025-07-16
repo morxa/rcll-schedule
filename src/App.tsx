@@ -14,41 +14,80 @@ function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [showConfig, setShowConfig] = useState(false);
+  const [isBackgroundUpdate, setIsBackgroundUpdate] = useState(false);
+  const [hasLoadedExternalData, setHasLoadedExternalData] = useState(false);
 
-  const loadData = useCallback(async () => {
+  const loadData = useCallback(async (isRefresh = false) => {
     try {
-      setLoading(true);
+      // Only show loading screen if we have no data yet (first load)
+      const hasExistingData = schedule.length > 0;
+      
+      if (!hasExistingData && !isRefresh) {
+        setLoading(true);
+      } else {
+        setIsBackgroundUpdate(true);
+      }
+      
       setError(null);
       console.log('App: Starting to load schedule data...');
-      const scheduleData = await loadScheduleFromCSV();
+      
+      // Allow fallback to local file only on first load when no external data was loaded before
+      const allowFallback = !hasExistingData && !hasLoadedExternalData;
+      console.log('App: allowFallback =', allowFallback, '(hasExistingData:', hasExistingData, ', hasLoadedExternalData:', hasLoadedExternalData, ')');
+      const scheduleData = await loadScheduleFromCSV(allowFallback);
+      
       console.log('App: Schedule data loaded:', scheduleData.length, 'days');
       
       if (scheduleData.length === 0) {
-        setError('No schedule data found - check console for loading errors');
-        setLoading(false);
+        // Only show error if we have no existing data
+        if (!hasExistingData) {
+          setError('No schedule data found - check console for loading errors');
+          setLoading(false);
+        } else {
+          console.warn('Background update failed: No schedule data found, keeping existing data');
+        }
+        setIsBackgroundUpdate(false);
         return;
+      }
+      
+      // Track that we've successfully loaded external data (if external URL is configured)
+      if (import.meta.env.VITE_SCHEDULE_CSV_URL) {
+        setHasLoadedExternalData(true);
       }
       
       setSchedule(scheduleData);
       
-      // Set current date as default
-      const today = new Date().toISOString().split('T')[0];
-      const todayExists = scheduleData.some(day => day.date === today);
-      setSelectedDate(todayExists ? today : scheduleData[0]?.date || '');
+      // Set current date as default (only on first load)
+      if (!hasExistingData) {
+        const today = new Date().getFullYear() + '-' + 
+                     String(new Date().getMonth() + 1).padStart(2, '0') + '-' + 
+                     String(new Date().getDate()).padStart(2, '0');
+        const todayExists = scheduleData.some(day => day.date === today);
+        setSelectedDate(todayExists ? today : scheduleData[0]?.date || '');
+      }
       
       setError(null); // Clear any previous errors
       setLoading(false);
+      setIsBackgroundUpdate(false);
       setLastUpdate(new Date());
     } catch (err) {
       console.error('App: Failed to load schedule:', err);
-      setError(`Failed to load schedule data: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      setLoading(false);
+      
+      // Only show error if we have no existing data
+      const hasExistingData = schedule.length > 0;
+      if (!hasExistingData) {
+        setError(`Failed to load schedule data: ${err instanceof Error ? err.message : 'Unknown error'}`);
+        setLoading(false);
+      } else {
+        console.warn('Background update failed, keeping existing data:', err);
+      }
+      setIsBackgroundUpdate(false);
     }
-  }, []);
+  }, [schedule.length, hasLoadedExternalData]);
 
   const refreshSchedule = useCallback(() => {
     console.log('Manual refresh triggered');
-    loadData();
+    loadData(true);
   }, [loadData]);
 
   useEffect(() => {
@@ -84,7 +123,7 @@ function App() {
 
     const refreshInterval = setInterval(() => {
       console.log('Auto-refreshing schedule due to cache expiration...');
-      loadData();
+      loadData(true);
     }, 5 * 60 * 1000); // 5 minutes
 
     return () => clearInterval(refreshInterval);
@@ -189,7 +228,10 @@ function App() {
         <p>
           Current time: {currentTime.toLocaleTimeString()} • 
           Last update: {lastUpdate.toLocaleTimeString()} • 
-          <span className="update-indicator">●</span> Auto-updating
+          <span className={`update-indicator ${isBackgroundUpdate ? 'updating' : ''}`}>
+            {isBackgroundUpdate ? '⟳' : '●'}
+          </span> 
+          {isBackgroundUpdate ? 'Updating...' : 'Auto-updating'}
           {import.meta.env.VITE_SCHEDULE_CSV_URL && ' • Schedule refreshes every 5min'}
         </p>
       </footer>
