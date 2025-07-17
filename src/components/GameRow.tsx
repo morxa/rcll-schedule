@@ -1,4 +1,4 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import type { ScheduleEntry } from '../types/schedule';
 import { formatTimeWithTimezone, getGameStatus } from '../utils/scheduleUtils';
 import './GameRow.css';
@@ -9,7 +9,7 @@ interface GameRowProps {
   currentGame: ScheduleEntry | null;
 }
 
-export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }) => {
+export const GameRow = forwardRef<HTMLTableRowElement, GameRowProps>(({ game, isCurrent, currentGame }, ref) => {
   const isSpecialEvent = game.isSpecialEvent;
   const gameStatus = getGameStatus(game, currentGame);
   
@@ -35,7 +35,7 @@ export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }
   
   if (isSpecialEvent) {
     return (
-      <tr className={`game-row ${isCurrent ? 'current-game' : ''} ${gameStatus === 'past' ? 'past-game' : ''} special-event-row ${importanceClass}`}>
+      <tr ref={ref} className={`game-row ${isCurrent ? 'current-game' : ''} ${gameStatus === 'past' ? 'past-game' : ''} special-event-row ${importanceClass}`}>
         <td className="time-cell">{formatTimeWithTimezone(game.time, game.date)}</td>
         <td colSpan={4} className="special-event-cell">
           {game.eventTitle}
@@ -45,7 +45,7 @@ export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }
   }
   
   return (
-    <tr className={`game-row ${isCurrent ? 'current-game' : ''} ${gameStatus === 'past' ? 'past-game' : ''} ${importanceClass}`}>
+    <tr ref={ref} className={`game-row ${isCurrent ? 'current-game' : ''} ${gameStatus === 'past' ? 'past-game' : ''} ${importanceClass}`}>
       <td className="time-cell">{formatTimeWithTimezone(game.time, game.date)}</td>
       <td className="team-cell cyan-team">
         {game.cyanTeam}
@@ -87,4 +87,6 @@ export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }
       </td>
     </tr>
   );
-};
+});
+
+GameRow.displayName = 'GameRow';
