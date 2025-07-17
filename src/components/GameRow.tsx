@@ -51,8 +51,26 @@ export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }
         {game.cyanTeam}
       </td>
       <td className="vs-cell">
-        {gameStatus === 'past' && game.cyanScore !== undefined && game.magentaScore !== undefined
-          ? `${game.cyanScore} - ${game.magentaScore}`
+        {gameStatus === 'past' && (game.cyanScore !== undefined || game.magentaScore !== undefined)
+          ? (() => {
+              // Handle single-team games or games with only one score
+              if (game.cyanScore !== undefined && game.magentaScore !== undefined) {
+                return `${game.cyanScore} - ${game.magentaScore}`;
+              } else if (game.cyanScore !== undefined && !game.magentaTeam) {
+                // Only cyan team played
+                return `${game.cyanScore}`;
+              } else if (game.magentaScore !== undefined && !game.cyanTeam) {
+                // Only magenta team played  
+                return `${game.magentaScore}`;
+              } else if (game.cyanScore !== undefined) {
+                // Cyan has score but magenta doesn't
+                return `${game.cyanScore} - -`;
+              } else if (game.magentaScore !== undefined) {
+                // Magenta has score but cyan doesn't
+                return `- - ${game.magentaScore}`;
+              }
+              return 'vs';
+            })()
           : 'vs'
         }
       </td>
