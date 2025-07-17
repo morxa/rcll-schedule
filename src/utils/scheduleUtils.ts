@@ -207,7 +207,6 @@ export function getCurrentGame(schedule: DaySchedule[]): ScheduleEntry | null {
   const currentDate = now.getFullYear() + '-' + 
                      String(now.getMonth() + 1).padStart(2, '0') + '-' + 
                      String(now.getDate()).padStart(2, '0');
-  const currentTime = now.toTimeString().slice(0, 5);
 
   const todaySchedule = schedule.find(day => day.date === currentDate);
   if (!todaySchedule) return null;
@@ -215,10 +214,13 @@ export function getCurrentGame(schedule: DaySchedule[]): ScheduleEntry | null {
   // Find the game that's currently happening or the next one
   for (let i = 0; i < todaySchedule.games.length; i++) {
     const game = todaySchedule.games[i];
-    const gameTime = game.time;
-    const nextGameTime = i < todaySchedule.games.length - 1 ? todaySchedule.games[i + 1].time : '23:59';
+    const gameStartTime = convertScheduleTimeToLocal(game.date, game.time);
+    const nextGame = todaySchedule.games[i + 1];
+    const gameEndTime = nextGame 
+      ? convertScheduleTimeToLocal(nextGame.date, nextGame.time)
+      : new Date(gameStartTime.getTime() + 30 * 60 * 1000); // Default 30 min duration
     
-    if (currentTime >= gameTime && currentTime < nextGameTime) {
+    if (now >= gameStartTime && now < gameEndTime) {
       return game;
     }
   }
@@ -246,21 +248,12 @@ export function getGameStatus(game: ScheduleEntry, currentGame: ScheduleEntry | 
     return 'current';
   }
 
-  // For today's games, check if they're in the past
-  const currentTime = now.toTimeString().slice(0, 5);
-  const gameTime = game.time;
-  const gameEndTime = addMinutesToTime(gameTime, 30);
+  // For today's games, use timezone-aware comparison
+  const gameStartTime = convertScheduleTimeToLocal(game.date, game.time);
+  const gameEndTime = new Date(gameStartTime.getTime() + 30 * 60 * 1000); // 30 min duration
   
-  if (currentTime >= gameEndTime) return 'past';
+  if (now >= gameEndTime) return 'past';
   return 'future';
-}
-
-function addMinutesToTime(timeString: string, minutes: number): string {
-  const [hours, mins] = timeString.split(':').map(Number);
-  const totalMinutes = hours * 60 + mins + minutes;
-  const newHours = Math.floor(totalMinutes / 60) % 24;
-  const newMins = totalMinutes % 60;
-  return `${newHours.toString().padStart(2, '0')}:${newMins.toString().padStart(2, '0')}`;
 }
 
 export function formatDate(dateString: string): string {
@@ -283,5 +276,61 @@ export function formatTime(timeString: string): string {
     hour: 'numeric',
     minute: '2-digit',
     hour12: undefined // Let the browser decide based on locale
+  });
+}
+
+// Timezone utilities
+export function getScheduleTimezone(): string {
+  return import.meta.env.VITE_SCHEDULE_TIMEZONE || Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
+export function convertScheduleTimeToLocal(date: string, time: string): Date {
+  const scheduleTimezone = getScheduleTimezone();
+  
+  // Create a date string in ISO format with timezone
+  const [year, month, day] = date.split('-');
+  const [hours, minutes] = time.split(':');
+  
+  // Use Intl.DateTimeFormat to handle the timezone conversion properly
+  const scheduleDateTime = `${year}-${month}-${day}T${hours}:${minutes}:00`;
+  
+  // Create date object assuming it's in the schedule timezone
+  // This is a simplified approach - for production you might want to use a library like date-fns-tz
+  try {
+    // Create a temporary date to calculate the offset
+    const tempDate = new Date(`${scheduleDateTime}Z`); // UTC
+    const scheduleDate = new Date(tempDate.toLocaleString('en-US', { timeZone: scheduleTimezone }));
+    const localDate = new Date(tempDate.toLocaleString('en-US', { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
+    
+    // Calculate the difference and apply it
+    const offsetDiff = scheduleDate.getTime() - localDate.getTime();
+    const correctedDate = new Date(Date.parse(scheduleDateTime) - offsetDiff);
+    
+    return correctedDate;
+  } catch (error) {
+    console.warn('Timezone conversion failed, using local interpretation:', error);
+    // Fallback: treat the time as local time
+    return new Date(`${scheduleDateTime}`);
+  }
+}
+
+export function formatTimeWithTimezone(timeString: string, date: string): string {
+  const localTime = convertScheduleTimeToLocal(date, timeString);
+  
+  return localTime.toLocaleTimeString(undefined, {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: undefined // Let the browser decide based on locale
+  });
+}
+
+export function formatDateWithTimezone(dateString: string): string {
+  const [year, month, day] = dateString.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+  
+  return date.toLocaleDateString(undefined, { 
+    weekday: 'long', 
+    month: 'long', 
+    day: 'numeric' 
   });
 }

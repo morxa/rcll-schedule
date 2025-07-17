@@ -130,6 +130,14 @@
   margin-bottom: 0;
 }
 
+.timezone-note {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
 @media (max-width: 768px) {
   .config-modal {
     width: 95%;

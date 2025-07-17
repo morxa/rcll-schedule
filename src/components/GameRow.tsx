@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ScheduleEntry } from '../types/schedule';
-import { formatTime, getGameStatus } from '../utils/scheduleUtils';
+import { formatTimeWithTimezone, getGameStatus } from '../utils/scheduleUtils';
 import './GameRow.css';
 
 interface GameRowProps {
@@ -36,7 +36,7 @@ export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }
   if (isSpecialEvent) {
     return (
       <tr className={`game-row ${isCurrent ? 'current-game' : ''} ${gameStatus === 'past' ? 'past-game' : ''} special-event-row ${importanceClass}`}>
-        <td className="time-cell">{formatTime(game.time)}</td>
+        <td className="time-cell">{formatTimeWithTimezone(game.time, game.date)}</td>
         <td colSpan={4} className="special-event-cell">
           {game.eventTitle}
         </td>
@@ -46,7 +46,7 @@ export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }
   
   return (
     <tr className={`game-row ${isCurrent ? 'current-game' : ''} ${gameStatus === 'past' ? 'past-game' : ''} ${importanceClass}`}>
-      <td className="time-cell">{formatTime(game.time)}</td>
+      <td className="time-cell">{formatTimeWithTimezone(game.time, game.date)}</td>
       <td className="team-cell cyan-team">
         {game.cyanTeam}
       </td>

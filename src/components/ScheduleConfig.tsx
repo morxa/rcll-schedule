@@ -32,6 +32,14 @@ export const ScheduleConfig: React.FC<ScheduleConfigProps> = ({ isVisible, onClo
             </div>
           </div>
           
+          <div className="config-section">
+            <label>Timezone Configuration:</label>
+            <p className="timezone-note">
+              Schedule timezone: {import.meta.env.VITE_SCHEDULE_TIMEZONE || 'Browser timezone'}<br/>
+              Display timezone: {Intl.DateTimeFormat().resolvedOptions().timeZone} (Your browser's timezone)
+            </p>
+          </div>
+          
           {import.meta.env.VITE_SCHEDULE_CSV_URL && (
             <div className="config-section">
               <button className="refresh-button" onClick={onRefresh}>
@@ -43,8 +51,9 @@ export const ScheduleConfig: React.FC<ScheduleConfigProps> = ({ isVisible, onClo
           
           <div className="config-info">
             <p><strong>📍 Current source:</strong> {import.meta.env.VITE_SCHEDULE_CSV_URL ? 'External URL' : 'Local file'}</p>
-            <p><strong>🔄 Updates:</strong> {import.meta.env.VITE_SCHEDULE_CSV_URL ? 'Automatic when URL content changes' : 'Requires redeployment'}</p>
-            <p><strong>⚙️ Configuration:</strong> Set via VITE_SCHEDULE_CSV_URL environment variable</p>
+            <p><strong>� Schedule timezone:</strong> {import.meta.env.VITE_SCHEDULE_TIMEZONE || 'Browser timezone'}</p>
+            <p><strong>�🔄 Updates:</strong> {import.meta.env.VITE_SCHEDULE_CSV_URL ? 'Automatic when URL content changes' : 'Requires redeployment'}</p>
+            <p><strong>⚙️ Configuration:</strong> Set via environment variables (VITE_SCHEDULE_CSV_URL, VITE_SCHEDULE_TIMEZONE)</p>
             {import.meta.env.VITE_SCHEDULE_CSV_URL && (
               <p><strong>🌐 CORS handling:</strong> Tries direct fetch first, falls back to CORS proxy if needed</p>
             )}
