@@ -1,77 +1,59 @@
 date,time,cyan_team,magenta_team,game_type
-2025-07-15,09:00,,,Setup
-2025-07-15,15:00,,,Technical Check
-2025-07-15,18:00,Team Alpha,Team Beta,Match
-2025-07-16,08:30,,,Opening Ceremony
-2025-07-16,09:00,Team Alpha,Team Beta,Match
-2025-07-16,09:30,Team Gamma,Team Delta,Match
-2025-07-16,10:00,Team Epsilon,Team Zeta,Match
-2025-07-16,10:30,,,Coffee Break
-2025-07-16,11:00,Team Alpha,Team Gamma,Match
-2025-07-16,11:30,Team Beta,Team Delta,Match
-2025-07-16,12:00,Team Epsilon,Team Alpha,Match
-2025-07-16,12:30,,,Break
-2025-07-16,13:00,,,Break
-2025-07-16,13:30,Team Zeta,Team Beta,Match
-2025-07-16,14:00,Team Gamma,Team Epsilon,Match
-2025-07-16,14:30,Team Delta,Team Alpha,Match
-2025-07-16,15:00,Team Beta,Team Zeta,Match
-2025-07-16,15:30,Team Gamma,Team Alpha,Match
-2025-07-16,16:00,Team Delta,Team Epsilon,Match
-2025-07-16,16:30,Team Zeta,Team Gamma,Match
-2025-07-16,17:00,Team Alpha,Team Beta,Match
-2025-07-17,09:00,Team Beta,Team Gamma,Match
-2025-07-17,09:30,Team Delta,Team Epsilon,Match
-2025-07-17,10:00,Team Zeta,Team Alpha,Match
-2025-07-17,10:30,Team Beta,Team Delta,Match
-2025-07-17,11:00,Team Gamma,Team Zeta,Match
-2025-07-17,11:30,Team Epsilon,Team Beta,Match
-2025-07-17,12:00,,,Break
-2025-07-17,12:30,,,Break
-2025-07-17,13:00,Team Alpha,Team Gamma,Match
-2025-07-17,13:30,Team Delta,Team Zeta,Match
-2025-07-17,14:00,Team Beta,Team Epsilon,Match
-2025-07-17,14:30,Team Alpha,Team Delta,Match
-2025-07-17,15:00,Team Gamma,Team Beta,Match
-2025-07-17,15:30,Team Zeta,Team Epsilon,Match
-2025-07-17,16:00,Team Alpha,Team Gamma,Match
-2025-07-17,16:30,Team Delta,Team Beta,Match
-2025-07-18,09:00,Team Epsilon,Team Gamma,Match
-2025-07-18,09:30,Team Zeta,Team Alpha,Match
-2025-07-18,10:00,Team Beta,Team Delta,Match
-2025-07-18,10:30,Team Gamma,Team Zeta,Match
-2025-07-18,11:00,Team Alpha,Team Epsilon,Match
-2025-07-18,11:30,Team Delta,Team Beta,Match
-2025-07-18,12:00,,,Break
-2025-07-18,12:30,,,Break
-2025-07-18,13:00,Team Zeta,Team Gamma,Match
-2025-07-18,13:30,Team Alpha,Team Beta,Match
-2025-07-18,14:00,Team Epsilon,Team Delta,Match
-2025-07-18,14:30,Team Gamma,Team Alpha,Match
-2025-07-18,15:00,Team Beta,Team Zeta,Match
-2025-07-18,15:30,Team Delta,Team Epsilon,Match
-2025-07-18,16:00,Team Alpha,Team Gamma,Match
-2025-07-18,16:30,Team Beta,Team Delta,Match
-2025-07-19,09:00,Team Zeta,Team Epsilon,Match
-2025-07-19,09:30,Team Gamma,Team Alpha,Match
-2025-07-19,10:00,Team Beta,Team Delta,Match
-2025-07-19,10:30,Team Epsilon,Team Gamma,Match
-2025-07-19,11:00,Team Alpha,Team Zeta,Match
-2025-07-19,11:30,Team Delta,Team Beta,Match
-2025-07-19,12:00,,,Break
-2025-07-19,12:30,,,Break
-2025-07-19,13:00,Team Gamma,Team Delta,Match
-2025-07-19,13:30,Team Epsilon,Team Alpha,Match
-2025-07-19,14:00,Team Beta,Team Zeta,Match
-2025-07-19,14:30,Team Gamma,Team Epsilon,Match
-2025-07-19,15:00,Team Alpha,Team Delta,Match
-2025-07-19,15:30,Team Zeta,Team Beta,Match
-2025-07-19,16:00,Team Gamma,Team Alpha,Match
-2025-07-19,16:30,Team Delta,Team Epsilon,Match
-2025-07-20,09:00,Team Alpha,Team Beta,Semi-Final
-2025-07-20,10:00,Team Gamma,Team Delta,Semi-Final
-2025-07-20,11:00,,,Break
-2025-07-20,12:00,TBD,TBD,Final
-2025-07-20,13:00,TBD,TBD,3rd Place
-2025-07-20,14:00,,,Awards Ceremony
-2025-07-20,15:00,,,Closing Ceremony
+2025-07-16,08:00,,,Field Setup
+2025-07-16,09:00,,,Challenge Track Setup
+2025-07-16,09:30,RoboLions,TechWolves,Challenge Track
+2025-07-16,10:00,ByteBears,MechMinds,Test Game
+2025-07-16,10:30,,,Game Setup
+2025-07-16,11:00,CyberCats,RoboLions,Challenge Track
+2025-07-16,12:00,,,Open Testing
+2025-07-16,16:00,,,Opening Ceremony
+2025-07-16,17:00,,,Open Testing
+2025-07-16,22:00,,,Venue Closed
+
+2025-07-17,08:30,,,Game Setup
+2025-07-17,09:00,TechWolves,MechMinds,Round Robin
+2025-07-17,09:30,,,Game Setup
+2025-07-17,10:00,ByteBears,RoboLions,Round Robin
+2025-07-17,10:30,,,Game Setup
+2025-07-17,11:00,CyberCats,TechWolves,Round Robin
+2025-07-17,11:30,MechMinds,RoboLions,Challenge Track
+2025-07-17,12:00,,,Open Testing
+2025-07-17,14:00,,,Game Setup
+2025-07-17,14:30,ByteBears,MechMinds,Round Robin
+2025-07-17,15:00,,,Game Setup
+2025-07-17,15:30,TechWolves,RoboLions,Round Robin
+2025-07-17,16:00,CyberCats,ByteBears,Challenge Track
+2025-07-17,16:30,,,Open Testing
+2025-07-17,22:00,,,Venue Closed
+
+2025-07-18,08:30,,,Game Setup
+2025-07-18,09:00,MechMinds,RoboLions,Round Robin
+2025-07-18,09:30,,,Game Setup
+2025-07-18,10:00,TechWolves,CyberCats,Round Robin
+2025-07-18,10:30,,,Game Setup
+2025-07-18,11:00,ByteBears,MechMinds,Playoffs
+2025-07-18,11:30,,,Game Setup
+2025-07-18,12:00,TechWolves,RoboLions,Playoffs
+2025-07-18,14:00,,,Open Testing
+2025-07-18,15:00,CyberCats,ByteBears,Test Game
+2025-07-18,16:00,MechMinds,RoboLions,Challenge Track
+2025-07-18,22:00,,,Venue Closed
+
+2025-07-19,08:00,,,TBD
+2025-07-19,10:00,,,Game Setup
+2025-07-19,10:30,ByteBears,TechWolves,Playoffs
+2025-07-19,11:00,,,Game Setup
+2025-07-19,11:30,CyberCats,RoboLions,Playoffs
+2025-07-19,12:00,,,Open Challenge
+2025-07-19,14:00,,,Challenge Track Setup
+2025-07-19,14:30,MechMinds,TechWolves,Challenge Track
+2025-07-19,15:00,,,RoboCup Picture
+2025-07-19,16:00,,,Open Testing
+
+2025-07-20,09:00,,,Game Setup
+2025-07-20,09:30,RoboLions,CyberCats,Small Final
+2025-07-20,10:30,,,Game Setup
+2025-07-20,11:00,ByteBears,TechWolves,Final
+2025-07-20,12:30,,,Closing Ceremony
+2025-07-20,14:00,,,Teardown
+

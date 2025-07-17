@@ -8,15 +8,15 @@
 
 .current-game {
   background-color: #fff3cd;
-  border: 2px solid #ffc107;
-  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
-  animation: pulse 2s infinite;
+  border: 3px solid #ffc107;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3); }
-  50% { box-shadow: 0 4px 16px rgba(255, 193, 7, 0.5); }
-  100% { box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3); }
+  0% { box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4); }
+  50% { box-shadow: 0 6px 25px rgba(255, 193, 7, 0.7); }
+  100% { box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4); }
 }
 
 .time-cell {
@@ -123,4 +123,130 @@
   background: #fff3cd;
   color: #856404;
   border: 1px solid #ffc107;
+}
+
+/* Game Importance Levels */
+
+/* Finals - Maximum prominence */
+.game-final {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border: 2px solid #ffc107;
+  font-weight: 600;
+}
+
+.game-final.current-game {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  border: 3px solid #ff4757;
+  box-shadow: 0 4px 20px rgba(255, 71, 87, 0.4);
+  animation: pulse-final 1.5s infinite;
+}
+
+@keyframes pulse-final {
+  0% { box-shadow: 0 4px 20px rgba(255, 71, 87, 0.4); }
+  50% { box-shadow: 0 6px 30px rgba(255, 71, 87, 0.7); }
+  100% { box-shadow: 0 4px 20px rgba(255, 71, 87, 0.4); }
+}
+
+.game-final .game-type-cell {
+  font-weight: 700;
+  color: #d63384;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Round Robin - Standard prominence */
+.game-round-robin {
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+}
+
+.game-round-robin.current-game {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 3px solid #2196f3;
+  box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+  animation: pulse-round-robin 1.5s infinite;
+}
+
+@keyframes pulse-round-robin {
+  0% { box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4); }
+  50% { box-shadow: 0 6px 30px rgba(33, 150, 243, 0.6); }
+  100% { box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4); }
+}
+
+.game-round-robin .game-type-cell {
+  color: #007bff;
+  font-weight: 600;
+}
+
+/* Challenge Track - Minimal prominence */
+.game-challenge {
+  background: #f8f9fa;
+  opacity: 0.8;
+}
+
+.game-challenge.current-game {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border: 2px solid #6c757d;
+  box-shadow: 0 3px 12px rgba(108, 117, 125, 0.3);
+  animation: pulse-challenge 2s infinite;
+}
+
+@keyframes pulse-challenge {
+  0% { box-shadow: 0 3px 12px rgba(108, 117, 125, 0.3); }
+  50% { box-shadow: 0 4px 18px rgba(108, 117, 125, 0.5); }
+  100% { box-shadow: 0 3px 12px rgba(108, 117, 125, 0.3); }
+}
+
+.game-challenge .team-cell {
+  background-color: #e9ecef !important;
+  color: #6c757d !important;
+  border-color: #ced4da !important;
+}
+
+.game-challenge .game-type-cell {
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Setup phases - Very subtle */
+.game-setup {
+  background: #f1f3f4;
+  opacity: 0.7;
+}
+
+.game-setup.current-game {
+  background: linear-gradient(135deg, #e8eaed 0%, #dadce0 100%);
+  border: 2px solid #dadce0;
+  box-shadow: 0 2px 10px rgba(218, 220, 224, 0.4);
+}
+
+.game-setup .special-event-cell {
+  background: #f1f3f4 !important;
+  color: #5f6368 !important;
+  font-style: italic;
+  font-weight: normal !important;
+}
+
+/* Test Games - Moderate prominence */
+.game-test {
+  background: #fff8e1;
+  border-left: 3px solid #ff9800;
+}
+
+.game-test.current-game {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border: 3px solid #ff9800;
+  box-shadow: 0 4px 18px rgba(255, 152, 0, 0.4);
+  animation: pulse-test 1.8s infinite;
+}
+
+@keyframes pulse-test {
+  0% { box-shadow: 0 4px 18px rgba(255, 152, 0, 0.4); }
+  50% { box-shadow: 0 6px 25px rgba(255, 152, 0, 0.6); }
+  100% { box-shadow: 0 4px 18px rgba(255, 152, 0, 0.4); }
+}
+
+.game-test .game-type-cell {
+  color: #ff9800;
+  font-weight: 500;
 }
