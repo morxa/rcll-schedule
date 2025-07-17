@@ -233,6 +233,72 @@
   100% { transform: rotate(360deg); }
 }
 
+/* Livestream Info Box */
+.livestream-info {
+  background: white;
+  margin: 2rem 1rem 1rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 2px solid #e3f2fd;
+}
+
+.livestream-info h3 {
+  margin: 0 0 1rem 0;
+  color: #1976d2;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.livestream-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.livestream-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.livestream-link.youtube {
+  background: #ff0000;
+  color: white;
+}
+
+.livestream-link.youtube:hover {
+  background: #cc0000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+}
+
+.livestream-link.twitch {
+  background: #9146ff;
+  color: white;
+}
+
+.livestream-link.twitch:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(145, 70, 255, 0.3);
+}
+
+.platform-icon {
+  font-size: 1.1rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .app-header h1 {
@@ -299,5 +365,26 @@
   
   .main-content {
     padding: 0 0.5rem;
+  }
+  
+  .livestream-info {
+    margin: 1rem 0.5rem;
+    padding: 1rem;
+  }
+  
+  .livestream-info h3 {
+    font-size: 1.2rem;
+  }
+  
+  .livestream-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .livestream-link {
+    min-width: auto;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
   }
 }

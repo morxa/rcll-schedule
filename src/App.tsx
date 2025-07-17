@@ -223,6 +223,30 @@ function App() {
         )}
       </main>
 
+      <div className="livestream-info">
+        <h3>📡 Watch Live Streams</h3>
+        <div className="livestream-links">
+          <a 
+            href="https://www.youtube.com/watch?v=7T4LYY8wjBk" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="livestream-link youtube"
+          >
+            <span className="platform-icon">▶️</span>
+            YouTube Live
+          </a>
+          <a 
+            href="https://www.twitch.tv/robocupofficial" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="livestream-link twitch"
+          >
+            <span className="platform-icon">🎮</span>
+            Twitch
+          </a>
+        </div>
+      </div>
+
       <footer className="app-footer">
         <p>
           Current time: {currentTime.toLocaleTimeString()} • 

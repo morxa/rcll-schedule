@@ -250,3 +250,26 @@
   color: #ff9800;
   font-weight: 500;
 }
+
+.livestream-indicator {
+  margin-left: 8px;
+  font-size: 14px;
+  animation: livestream-pulse 2s infinite;
+  cursor: help;
+}
+
+@keyframes livestream-pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.current-game .livestream-indicator {
+  animation: livestream-pulse-bright 1.5s infinite;
+}
+
+@keyframes livestream-pulse-bright {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}

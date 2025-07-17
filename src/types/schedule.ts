@@ -8,6 +8,7 @@ export interface ScheduleEntry {
   eventTitle?: string;
   cyanScore?: number;
   magentaScore?: number;
+  isLivestreamed?: boolean;
 }
 
 export interface DaySchedule {

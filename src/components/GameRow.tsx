@@ -77,7 +77,14 @@ export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }
       <td className="team-cell magenta-team">
         {game.magentaTeam}
       </td>
-      <td className="game-type-cell">{game.gameType}</td>
+      <td className="game-type-cell">
+        {game.gameType}
+        {game.isLivestreamed && (
+          <span className="livestream-indicator" title="Live streamed">
+            📡
+          </span>
+        )}
+      </td>
     </tr>
   );
 };
