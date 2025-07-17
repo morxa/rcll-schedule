@@ -6,6 +6,8 @@ export interface ScheduleEntry {
   gameType: string;
   isSpecialEvent?: boolean;
   eventTitle?: string;
+  cyanScore?: number;
+  magentaScore?: number;
 }
 
 export interface DaySchedule {

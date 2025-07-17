@@ -50,7 +50,12 @@ export const GameRow: React.FC<GameRowProps> = ({ game, isCurrent, currentGame }
       <td className="team-cell cyan-team">
         {game.cyanTeam}
       </td>
-      <td className="vs-cell">vs</td>
+      <td className="vs-cell">
+        {gameStatus === 'past' && game.cyanScore !== undefined && game.magentaScore !== undefined
+          ? `${game.cyanScore} - ${game.magentaScore}`
+          : 'vs'
+        }
+      </td>
       <td className="team-cell magenta-team">
         {game.magentaTeam}
       </td>

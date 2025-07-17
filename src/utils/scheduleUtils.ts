@@ -164,6 +164,8 @@ export function parseCSV(csvText: string): DaySchedule[] {
       const cyanTeam = values[2];
       const magentaTeam = values[3];
       const gameType = values[4];
+      const cyanScore = values[5] ? parseInt(values[5]) : undefined;
+      const magentaScore = values[6] ? parseInt(values[6]) : undefined;
       
       // Check if this is a special event (blank team columns or same text in both columns)
       const isSpecialEvent = (!cyanTeam && !magentaTeam) || (cyanTeam === magentaTeam) || 
@@ -176,7 +178,9 @@ export function parseCSV(csvText: string): DaySchedule[] {
         magentaTeam,
         gameType,
         isSpecialEvent,
-        eventTitle: isSpecialEvent ? (gameType || cyanTeam) : undefined
+        eventTitle: isSpecialEvent ? (gameType || cyanTeam) : undefined,
+        cyanScore: !isNaN(cyanScore!) ? cyanScore : undefined,
+        magentaScore: !isNaN(magentaScore!) ? magentaScore : undefined
       };
     });
 
