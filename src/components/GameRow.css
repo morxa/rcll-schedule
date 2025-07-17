@@ -197,12 +197,6 @@
   100% { box-shadow: 0 3px 12px rgba(108, 117, 125, 0.3); }
 }
 
-.game-challenge .team-cell {
-  background-color: #e9ecef !important;
-  color: #6c757d !important;
-  border-color: #ced4da !important;
-}
-
 .game-challenge .game-type-cell {
   color: #6c757d;
   font-style: italic;
