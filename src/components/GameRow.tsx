@@ -21,7 +21,7 @@ export const GameRow = forwardRef<HTMLTableRowElement, GameRowProps>(({ game, is
       return 'game-final';
     } else if (lowerGameType.includes('round robin') || lowerGameType.includes('playoffs')) {
       return 'game-round-robin';
-    } else if (lowerGameType.includes('challenge track') && !lowerGameType.includes('setup')) {
+    } else if (lowerGameType.includes('challenge') && !lowerGameType.includes('setup')) {
       return 'game-challenge';
     } else if (lowerGameType.includes('setup')) {
       return 'game-setup';
